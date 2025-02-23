@@ -1,5 +1,5 @@
 # NLP-ML
-sentiment analysis of a text with 7 emotions using the rubert-base-cased model
+sentiment analysis of a text with 7 emotions using the rubert-base-cased model and dataset made by me
 
 ```python
 import pandas as pd
@@ -88,7 +88,8 @@ history = model.fit(
 # Сохранение модели
 model.save_pretrained("dataset(text)/models")
 tokenizer.save_pretrained("dataset(text)/models")
-# Отрисовка графики обучения
+
+# Графики обучения
 tr_acc = history.history['accuracy']
 tr_loss = history.history['loss']
 val_acc = history.history['val_accuracy']
