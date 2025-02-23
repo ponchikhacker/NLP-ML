@@ -62,14 +62,12 @@ val_dataset = tf.data.Dataset.from_tensor_slices((
     val_labels,
 )).batch(16)
 
-
 # Компиляция модели
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=5e-5),
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),  # Для целочисленных меток
     metrics=["accuracy"],
 )
-
 # Обучение модели
 epochs = 4
 history = model.fit(
@@ -77,7 +75,6 @@ history = model.fit(
     validation_data=val_dataset,
     epochs=epochs,
 )
-
 ```
     Epoch 1/4
     421/421 [==============================] - 80s 164ms/step - loss: 0.4412 - accuracy: 0.8577 - val_loss: 0.2985 - val_accuracy: 0.9198
@@ -88,8 +85,6 @@ history = model.fit(
     Epoch 4/4
     421/421 [==============================] - 68s 160ms/step - loss: 0.0476 - accuracy: 0.9884 - val_loss: 0.1508 - val_accuracy: 0.9626
 ```  
-
-
 # Сохранение модели
 model.save_pretrained("dataset(text)/models")
 tokenizer.save_pretrained("dataset(text)/models")
@@ -239,10 +234,4 @@ print("Метка:", label, f"- {emotion_labels[label]}")
      7.5328193e-04 1.4422393e-04]
     Метка: 1 - счастье
     
-```
-    
-
-
-```python
-
 ```
