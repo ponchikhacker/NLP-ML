@@ -4,13 +4,13 @@ sentiment analysis of a text with 7 emotions using the rubert-base-cased model
 ```python
 import pandas as pd
 import tensorflow as tf
+import matplotlib.pyplot as plt
+import numpy as np
 from transformers import TFBertForSequenceClassification, BertTokenizer
 from sklearn.model_selection import train_test_split
-```
+from sklearn.metrics import accuracy_score, classification_report
 
 
-
-```python
 # Загрузка и подготовка данных
 def prepare_data(file_path):
     # Загрузка данных
@@ -20,35 +20,18 @@ def prepare_data(file_path):
     y = df['label'].values
     
     return X, y
-```
 
 
-```python
 # Путь к файлу
 file_path = "dataset(text)/train.csv"  # Укажите путь к вашему файлу
-
 # Подготовка данных
 X, y = prepare_data(file_path)
-```
 
-
-```python
-print(X[0], y[0])
-```
-
-    Сегодня на улице ясная погода. 0
-    
-
-
-```python
 # Загрузка токенизатора и модели
 model_name = "DeepPavlov/rubert-base-cased"  # или другая версия RuBERT
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = TFBertForSequenceClassification.from_pretrained(model_name, num_labels=7, from_pt=True)
-```
 
-
-```python
 # Токенизация данных
 def tokenize_data(texts, labels):
     tokenized = tokenizer(
@@ -59,10 +42,8 @@ def tokenize_data(texts, labels):
         return_tensors="tf",
     )
     return tokenized, labels
-```
 
 
-```python
 # Разделение данных на обучающую и валидационную выборки
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.1, random_state=42)
 
@@ -80,20 +61,15 @@ val_dataset = tf.data.Dataset.from_tensor_slices((
     dict(val_encodings),
     val_labels,
 )).batch(16)
-```
 
 
-```python
 # Компиляция модели
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=5e-5),
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),  # Для целочисленных меток
     metrics=["accuracy"],
 )
-```
 
-
-```python
 # Обучение модели
 epochs = 4
 history = model.fit(
@@ -101,8 +77,8 @@ history = model.fit(
     validation_data=val_dataset,
     epochs=epochs,
 )
-```
 
+```
     Epoch 1/4
     421/421 [==============================] - 80s 164ms/step - loss: 0.4412 - accuracy: 0.8577 - val_loss: 0.2985 - val_accuracy: 0.9198
     Epoch 2/4
@@ -111,30 +87,13 @@ history = model.fit(
     421/421 [==============================] - 67s 159ms/step - loss: 0.0587 - accuracy: 0.9836 - val_loss: 0.1514 - val_accuracy: 0.9652
     Epoch 4/4
     421/421 [==============================] - 68s 160ms/step - loss: 0.0476 - accuracy: 0.9884 - val_loss: 0.1508 - val_accuracy: 0.9626
-    
+```  
 
 
-```python
 # Сохранение модели
 model.save_pretrained("dataset(text)/models")
 tokenizer.save_pretrained("dataset(text)/models")
-```
-
-
-
-
-    ('dataset(text)/models\\tokenizer_config.json',
-     'dataset(text)/models\\special_tokens_map.json',
-     'dataset(text)/models\\vocab.txt',
-     'dataset(text)/models\\added_tokens.json')
-
-
-
-
-```python
-import matplotlib.pyplot as plt
-import numpy as np
-
+# Отрисовка графики обучения
 tr_acc = history.history['accuracy']
 tr_loss = history.history['loss']
 val_acc = history.history['val_accuracy']
@@ -146,9 +105,7 @@ acc_highest = val_acc[index_acc]
 
 loss_label = f'best epoch= {str(index_loss + 1)}'
 acc_label = f'best epoch= {str(index_acc + 1)}'
-
 Epochs = [i+1 for i in range(len(tr_acc))]
-
 
 plt.figure(figsize= (20, 8))
 plt.style.use('fivethirtyeight')
@@ -177,25 +134,18 @@ plt.show()
 
 
     
-![png](output_10_0.png)
+![png](train.png)
     
 
 
 
 ```python
-import pandas as pd
-import tensorflow as tf
-from sklearn.metrics import accuracy_score, classification_report
-
 # Путь к файлу
 file_path = "dataset(text)/test.csv"  # Укажите путь к вашему файлу
 
-# Подготовка данных
+# Подготовка тестовых данных
 X_test, y_test = prepare_data(file_path)
-```
 
-
-```python
 def tokenize_data(texts):
     return tokenizer(
         texts.tolist(),  # Преобразуем в список
@@ -204,15 +154,10 @@ def tokenize_data(texts):
         max_length=128,
         return_tensors="tf",
     )
-```
 
-
-```python
 test_encodings = tokenize_data(X_test)
-```
 
 
-```python
 test_dataset = tf.data.Dataset.from_tensor_slices((
     dict(test_encodings),
 )).batch(16)
@@ -252,8 +197,6 @@ else:
 
 
 ```python
-import tensorflow as tf
-
 # Функция для получения вектора предсказаний
 def get_prediction_vector(text):
     # Токенизация текста
@@ -270,10 +213,8 @@ def get_prediction_vector(text):
     probabilities = tf.nn.softmax(logits, axis=-1).numpy()[0]
     
     return logits.numpy()[0], probabilities, predicted_labels
-```
 
 
-```python
 emotion_labels = {
     0: "нейтральный",
     1: "счастье",
@@ -298,20 +239,7 @@ print("Метка:", label, f"- {emotion_labels[label]}")
      7.5328193e-04 1.4422393e-04]
     Метка: 1 - счастье
     
-
-
-```python
-from transformers import TFBertForSequenceClassification, BertTokenizer
-model = TFBertForSequenceClassification.from_pretrained("dataset(text)/models")
-tokenizer = BertTokenizer.from_pretrained("dataset(text)/models")
-
 ```
-
-    Some layers from the model checkpoint at dataset(text)/models were not used when initializing TFBertForSequenceClassification: ['dropout_37']
-    - This IS expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
-    - This IS NOT expected if you are initializing TFBertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
-    All the layers of TFBertForSequenceClassification were initialized from the model checkpoint at dataset(text)/models.
-    If your task is similar to the task the model of the checkpoint was trained on, you can already use TFBertForSequenceClassification for predictions without further training.
     
 
 
