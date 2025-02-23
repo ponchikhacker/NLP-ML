@@ -8,9 +8,6 @@ from transformers import TFBertForSequenceClassification, BertTokenizer
 from sklearn.model_selection import train_test_split
 ```
 
-    D:\Anaconda\envs\ML\lib\site-packages\tqdm\auto.py:22: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-      from .autonotebook import tqdm as notebook_tqdm
-    
 
 
 ```python
@@ -49,13 +46,6 @@ model_name = "DeepPavlov/rubert-base-cased"  # или другая версия 
 tokenizer = BertTokenizer.from_pretrained(model_name)
 model = TFBertForSequenceClassification.from_pretrained(model_name, num_labels=7, from_pt=True)
 ```
-
-    Some weights of the PyTorch model were not used when initializing the TF 2.0 model TFBertForSequenceClassification: ['bert.embeddings.position_ids']
-    - This IS expected if you are initializing TFBertForSequenceClassification from a PyTorch model trained on another task or with another architecture (e.g. initializing a TFBertForSequenceClassification model from a BertForPreTraining model).
-    - This IS NOT expected if you are initializing TFBertForSequenceClassification from a PyTorch model that you expect to be exactly identical (e.g. initializing a TFBertForSequenceClassification model from a BertForSequenceClassification model).
-    Some weights or buffers of the TF 2.0 model TFBertForSequenceClassification were not initialized from the PyTorch model and are newly initialized: ['classifier.weight', 'classifier.bias']
-    You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
-    
 
 
 ```python
