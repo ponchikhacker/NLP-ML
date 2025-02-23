@@ -1,6 +1,8 @@
 # NLP-ML
 sentiment analysis of a text with 7 emotions using the rubert-base-cased model and dataset made by me
 
+Below is the code of the program executed on JupiterLab
+
 ```python
 import pandas as pd
 import tensorflow as tf
