@@ -84,7 +84,7 @@ history = model.fit(
     421/421 [==============================] - 67s 159ms/step - loss: 0.0587 - accuracy: 0.9836 - val_loss: 0.1514 - val_accuracy: 0.9652
     Epoch 4/4
     421/421 [==============================] - 68s 160ms/step - loss: 0.0476 - accuracy: 0.9884 - val_loss: 0.1508 - val_accuracy: 0.9626
-```  
+```python  
 # Сохранение модели
 model.save_pretrained("dataset(text)/models")
 tokenizer.save_pretrained("dataset(text)/models")
