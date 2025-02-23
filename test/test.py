@@ -4,7 +4,7 @@ from transformers import TFBertForSequenceClassification, BertTokenizer
 
 
 model = TFBertForSequenceClassification.from_pretrained("model/tf_model")
-tokenizer = BertTokenizer.from_pretrained("model/tf_model/tokenizer")
+tokenizer = BertTokenizer.from_pretrained("model/tokenizer")
 
 
 # Функция для получения вектора предсказаний
