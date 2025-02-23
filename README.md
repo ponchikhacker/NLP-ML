@@ -187,5 +187,3 @@ else:
         accuracy                           0.98       140
        macro avg       0.98      0.98      0.98       140
     weighted avg       0.98      0.98      0.98       140
-    
-```
