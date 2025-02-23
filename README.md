@@ -23,7 +23,7 @@ def prepare_data(file_path):
 
 
 # Путь к файлу
-file_path = "dataset(text)/train.csv"  # Укажите путь к вашему файлу
+file_path = "dataset(text)/train.csv"
 # Подготовка данных
 X, y = prepare_data(file_path)
 
@@ -136,19 +136,20 @@ plt.show()
 
 ```python
 # Путь к файлу
-file_path = "dataset(text)/test.csv"  # Укажите путь к вашему файлу
+file_path = "dataset(text)/test.csv"
 
 # Подготовка тестовых данных
 X_test, y_test = prepare_data(file_path)
 
 def tokenize_data(texts):
     return tokenizer(
-        texts.tolist(),  # Преобразуем в список
+        texts.tolist(),
         padding=True,
         truncation=True,
         max_length=128,
         return_tensors="tf",
     )
+
 
 test_encodings = tokenize_data(X_test)
 
