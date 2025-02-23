@@ -58,7 +58,6 @@ train_dataset = tf.data.Dataset.from_tensor_slices((
     dict(train_encodings),
     train_labels,
 )).shuffle(len(train_labels)).batch(16)
-
 val_dataset = tf.data.Dataset.from_tensor_slices((
     dict(val_encodings),
     val_labels,
@@ -155,8 +154,6 @@ def tokenize_data(texts):
 
 
 test_encodings = tokenize_data(X_test)
-
-
 test_dataset = tf.data.Dataset.from_tensor_slices((
     dict(test_encodings),
 )).batch(16)
@@ -176,7 +173,6 @@ else:
     # Если меток нет, просто выводим предсказания
     print("Predicted labels:", predicted_labels)
 ```
-
     Accuracy: 0.9786
                   precision    recall  f1-score   support
     
