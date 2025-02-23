@@ -130,7 +130,7 @@ plt.show()
 
 
     
-![png](train.png)
+![png](data/train.png)
     
 
 
