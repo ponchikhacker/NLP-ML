@@ -35,7 +35,7 @@ emotion_labels = {
     6: "гнев",
 }
 # Пример использования
-text = "Мича пупсик, юна пупсик"
+text = "Невозможно описать запах, но он был ужасным"
 logits, probabilities, label = get_prediction_vector(text)
 
 print("Логиты:", logits)
